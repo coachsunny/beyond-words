@@ -1,11 +1,14 @@
 /* ===================================================================
    言未盡處 (Beyond Words) - Paper Book Experience CSS
    Design System: Traditional Book Typography & Mindful Coaching Aesthetic
+   Supports OpenCC Traditional / Simplified with specialized fonts
    =================================================================== */
 
-/* Root Variables & Colors */
-:root {
-  --font-serif: "Noto Serif TC", "Songti TC", "Source Han Serif TC", "SimSun", serif;
+/* Typography & Font Standards */
+:root,
+html[lang="zh-Hant"],
+body[data-lang="zh-Hant"] {
+  --font-serif: "Noto Serif TC", "Songti TC", "Source Han Serif TC", "MingLiU", serif;
   --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
   --radius-sm: 6px;
@@ -16,6 +19,13 @@
   --transition-fast: 0.18s ease;
   --transition-normal: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   --max-reading-width: 740px;
+}
+
+/* Simplified Chinese Font Family Override */
+html[lang="zh-Hans"],
+body[data-lang="zh-Hans"] {
+  --font-serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "SimSun", serif;
+  --font-sans: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 /* 1. Theme: Warm Paper (Default) */
@@ -238,7 +248,7 @@ body {
   gap: 0.5rem;
 }
 
-/* Buttons */
+/* Controls Buttons */
 .ctrl-btn {
   display: inline-flex;
   align-items: center;
@@ -261,6 +271,22 @@ body {
   background: var(--bg-secondary);
   border-color: var(--accent-gold);
   transform: translateY(-1px);
+}
+
+/* OpenCC Language Toggle Button */
+.lang-btn {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  padding: 0.42rem 0.75rem;
+}
+.lang-icon {
+  font-size: 0.92rem;
+  color: var(--accent-seal);
+  font-weight: 700;
+}
+.lang-label {
+  font-size: 0.85rem;
+  font-weight: 700;
 }
 
 .font-size-group {
@@ -1047,6 +1073,11 @@ body {
 .footer-links .sep {
   margin: 0 0.5rem;
   color: var(--border-color);
+}
+.footer-motto {
+  color: var(--accent-gold);
+  font-style: italic;
+  font-size: 0.85rem;
 }
 
 /* ===================================================================

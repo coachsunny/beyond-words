@@ -7,7 +7,7 @@
   <title>言未盡處 | Sunny Lee 的心靈小說書房</title>
   <meta name="description" content="言未盡處 —— 那些未曾說出口的話，在這裡都被溫柔聽見。Sunny Lee 的心理小說與教練書房。">
   <script>
-    // FOUC prevention for color scheme
+    // FOUC prevention for color scheme & language
     try {
       const storedTheme = localStorage.getItem("beyond-words-theme");
       if (storedTheme === "night") {
@@ -15,17 +15,24 @@
       } else if (storedTheme === "light" || storedTheme === "paper") {
         document.querySelector('meta[name="color-scheme"]').content = "light";
       }
+
+      const storedLang = localStorage.getItem("beyond-words-lang");
+      if (storedLang === "zh-Hans") {
+        document.documentElement.lang = "zh-Hans";
+      } else {
+        document.documentElement.lang = "zh-Hant";
+      }
     } catch (e) {}
   </script>
 
-  <!-- Google Fonts: Noto Serif TC & Outfit -->
+  <!-- Google Fonts: Noto Serif TC (繁體) & Noto Serif SC (簡體) & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="style.css">
 </head>
-<body data-theme="paper" data-font-size="medium">
+<body data-theme="paper" data-font-size="medium" data-lang="zh-Hant">
 
   <!-- Reading Progress Bar -->
   <div id="scroll-progress-container" class="scroll-progress-container" aria-hidden="true">
@@ -36,10 +43,10 @@
   <header class="site-header" id="site-header">
     <div class="header-inner">
       <a href="#bookshelf" class="brand-link" id="brand-link">
-        <span class="seal-mark">言</span>
+        <span class="seal-mark" id="brand-seal">言</span>
         <div class="brand-text">
-          <span class="site-title">言未盡處</span>
-          <span class="site-tagline">那些未曾說出的話，在這裡都被溫柔聽見</span>
+          <span class="site-title" id="site-title">言未盡處</span>
+          <span class="site-tagline" id="site-tagline">那些未曾說出的話，在這裡都被溫柔聽見</span>
         </div>
       </a>
 
@@ -49,13 +56,21 @@
         <div class="reader-controls" id="reader-controls" style="display: none;">
           <button type="button" class="ctrl-btn" id="btn-toc" title="開啟章節目錄" aria-label="開啟章節目錄">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-            <span>目錄</span>
+            <span id="btn-toc-text">目錄</span>
           </button>
           
           <div class="font-size-group" role="group" aria-label="調整字級大小">
             <button type="button" class="ctrl-btn font-btn" id="btn-font-dec" title="縮小字體" aria-label="縮小字體">A-</button>
             <button type="button" class="ctrl-btn font-btn" id="btn-font-inc" title="放大字體" aria-label="放大字體">A+</button>
           </div>
+        </div>
+
+        <!-- OpenCC Traditional / Simplified Language Toggle -->
+        <div class="lang-toggle-wrap">
+          <button type="button" class="ctrl-btn lang-btn" id="btn-lang" title="切換繁體/簡體 (OpenCC 專業詞彙轉換)" aria-label="切換繁體/簡體">
+            <span class="lang-icon">文</span>
+            <span class="lang-label" id="current-lang-label">繁</span>
+          </button>
         </div>
 
         <!-- Theme Selector Toggle -->
@@ -68,7 +83,7 @@
 
         <a href="#bookshelf" class="ctrl-btn nav-bookshelf-btn" id="nav-bookshelf-link" title="返回書架">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-          <span>書架</span>
+          <span id="nav-bookshelf-text">書架</span>
         </a>
       </div>
     </div>
@@ -82,10 +97,10 @@
       <!-- Hero Intro -->
       <div class="hero-section">
         <div class="hero-quote-box">
-          <p class="hero-quote">「當你試圖完美時，你推開了人；當你承認笨拙時，你連接了人。」</p>
-          <span class="hero-author">—— Sunny Lee · 《言未盡處》心靈書房</span>
+          <p class="hero-quote" id="hero-quote">「當你試圖完美時，你推開了人；當你承認笨拙時，你連接了人。」</p>
+          <span class="hero-author" id="hero-author">—— Sunny Lee · 《言未盡處》心靈書房</span>
         </div>
-        <p class="hero-desc">
+        <p class="hero-desc" id="hero-desc">
           這裡是一處安靜翻頁的角落。收錄以心理學、教練覺察與人生蛻變為底色的長篇故事。願字裡行間的微光，陪你在紙墨溫度中卸下盔甲，與真實的自己相遇。
         </p>
       </div>
@@ -93,8 +108,8 @@
       <!-- Books Grid -->
       <div class="bookshelf-container">
         <h2 class="section-title">
-          <span>📚 作品書架</span>
-          <small class="section-subtitle">點擊封面或書名開啟深度閱讀</small>
+          <span id="shelf-title">📚 作品書架</span>
+          <small class="section-subtitle" id="shelf-subtitle">點擊封面或書名開啟深度閱讀</small>
         </h2>
 
         <div class="books-grid" id="books-grid">
@@ -103,22 +118,22 @@
       </div>
 
       <!-- Author Introduction Card -->
-      <div class="author-section">
+      <div class="author-section" id="about-author">
         <div class="author-card">
           <div class="author-avatar-wrap">
             <img src="assets/sunny-ip.png" alt="Sunny Lee 導航者形象" class="author-avatar" loading="lazy">
           </div>
           <div class="author-info">
-            <span class="author-role">作者與陪伴者</span>
+            <span class="author-role" id="author-role">作者與陪伴者</span>
             <h3 class="author-name">Sunny Lee</h3>
-            <p class="author-bio">
+            <p class="author-bio" id="author-bio">
               企業教練、引路人與文字擺渡者。相信人與人之間最深沈的靠近，從來不是無懈可擊的話術，而是在防禦與沉默的裂縫裡，如實說出那句真誠的「人話」。
             </p>
             <div class="author-badges">
-              <span class="badge">薩提爾冰山探索</span>
-              <span class="badge">非暴力溝通</span>
-              <span class="badge">由有為入無為</span>
-              <span class="badge">紙本深度閱讀體驗</span>
+              <span class="badge" id="badge-1">薩提爾冰山探索</span>
+              <span class="badge" id="badge-2">非暴力溝通</span>
+              <span class="badge" id="badge-3">由有為入無為</span>
+              <span class="badge" id="badge-4">紙本深度閱讀體驗</span>
             </div>
           </div>
         </div>
@@ -139,7 +154,7 @@
         <!-- Reader Chapter Header -->
         <header class="reader-header">
           <div class="reader-breadcrumb">
-            <a href="#bookshelf">書架</a>
+            <a href="#bookshelf" id="breadcrumb-shelf">書架</a>
             <span class="sep">/</span>
             <a href="#" id="reader-book-link">那些沒有說出的話</a>
             <span class="sep">/</span>
@@ -152,7 +167,7 @@
             <span class="dot">·</span>
             <span id="reader-meta-words">約 6,000 字</span>
             <span class="dot">·</span>
-            <span class="meta-tag">正文字體：思源宋體</span>
+            <span class="meta-tag" id="reader-font-meta">正文字體：思源宋體</span>
           </div>
         </header>
 
@@ -165,22 +180,22 @@
         <footer class="reader-footer">
           <div class="chapter-nav-buttons">
             <button type="button" class="nav-ch-btn prev-ch-btn" id="btn-prev-chapter">
-              <span class="nav-dir">← 上一回</span>
+              <span class="nav-dir" id="prev-ch-dir">← 上一回</span>
               <span class="nav-target-title" id="prev-ch-title">上一回</span>
             </button>
 
             <a href="#" class="nav-ch-btn toc-ch-btn" id="btn-back-to-book">
-              <span>返回本書目錄</span>
+              <span id="btn-back-to-book-text">返回本書目錄</span>
             </a>
 
             <button type="button" class="nav-ch-btn next-ch-btn" id="btn-next-chapter">
-              <span class="nav-dir">下一回 →</span>
+              <span class="nav-dir" id="next-ch-dir">下一回 →</span>
               <span class="nav-target-title" id="next-ch-title">下一回</span>
             </button>
           </div>
           
           <div class="keyboard-hint" aria-hidden="true">
-            <span>💡 提示：您可以使用鍵盤左、右方向鍵 <code>←</code> <code>→</code> 快速翻閱章節</span>
+            <span id="keyboard-hint-text">💡 提示：您可以使用鍵盤左、右方向鍵 <code>←</code> <code>→</code> 快速翻閱章節</span>
           </div>
         </footer>
 
@@ -208,18 +223,23 @@
     </div>
   </dialog>
 
-  <!-- Site Footer -->
+  <!-- Site Footer (Pure literary space, no developer github links) -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <p class="footer-brand">言未盡處 · Sunny Lee 心靈小說系列</p>
+      <p class="footer-brand" id="footer-brand">言未盡處 · Sunny Lee 心靈小說系列</p>
       <p class="footer-copy">© 2026 Sunny Lee. 版權所有。轉載請註明出處。</p>
       <div class="footer-links">
-        <a href="#bookshelf">總書架</a>
+        <a href="#bookshelf" id="footer-link-shelf">總書架</a>
         <span class="sep">·</span>
-        <a href="https://github.com/coachsunny/beyond-words" target="_blank" rel="noopener">GitHub 儲存庫</a>
+        <a href="#about-author" id="footer-link-author">關於陪伴者</a>
+        <span class="sep">·</span>
+        <span class="footer-motto" id="footer-motto">安靜翻頁 · 溫柔同在</span>
       </div>
     </div>
   </footer>
+
+  <!-- OpenCC Library for Traditional/Simplified Conversion -->
+  <script src="assets/opencc.full.js"></script>
 
   <!-- Novel Data and Application Script -->
   <script src="data/novel-data.js"></script>
