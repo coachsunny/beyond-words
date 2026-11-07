@@ -509,10 +509,11 @@
         card.appendChild(cardTitle);
 
         sec.reflection.paragraphs.forEach(rp => {
-          if (!rp.trim()) return;
+          const trimmed = rp.trim();
+          if (!trimmed || trimmed === '【易新省思札記】' || trimmed === '[易新省思札記]') return;
           const rEl = document.createElement('p');
           rEl.className = 'reflection-paragraph';
-          rEl.textContent = t(rp);
+          rEl.textContent = t(trimmed);
           card.appendChild(rEl);
         });
 
