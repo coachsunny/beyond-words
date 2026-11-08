@@ -856,6 +856,7 @@ body {
 }
 
 .reflection-paragraph {
+  white-space: pre-line;
   font-size: 0.96em;
   line-height: 1.85;
   margin-bottom: 0.8em;
