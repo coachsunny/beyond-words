@@ -1,4 +1,4 @@
-window.NOVEL_DATA = {
+window.BEYOND_WORDS_DATA = window.NOVEL_DATA = {
   "site_title": "言未盡處",
   "site_subtitle": "那些未曾說出口的話，在這裡都被溫柔聽見",
   "author": "Sunny Lee",

@@ -189,8 +189,9 @@
   }
 
   function loadBooksData() {
-    if (window.BEYOND_WORDS_DATA && window.BEYOND_WORDS_DATA.books) {
-      state.books = window.BEYOND_WORDS_DATA.books;
+    const dataSrc = window.BEYOND_WORDS_DATA || window.NOVEL_DATA;
+    if (dataSrc && dataSrc.books) {
+      state.books = dataSrc.books;
     } else {
       console.error('Novel data not loaded.');
       state.books = [];
