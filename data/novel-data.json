@@ -1,4 +1,4 @@
-{
+﻿{
   "site_title": "言未盡處",
   "site_subtitle": "那些未曾說出口的話，在這裡都被溫柔聽見",
   "author": "Sunny Lee",
@@ -4300,7 +4300,9 @@
         },
         {
           "id": "ch-20",
+          "chapter_number": 20,
           "title": "第二十回：融化的雪水與新生的種子",
+          "short_title": "融化的雪水與新生的種子",
           "sections": [
             {
               "id": "sec-20-1",
