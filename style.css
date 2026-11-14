@@ -1,4 +1,4 @@
-/* ===================================================================
+﻿/* ===================================================================
    言未盡處 (Beyond Words) - Paper Book Experience CSS
    Design System: Traditional Book Typography & Mindful Coaching Aesthetic
    Supports OpenCC Traditional / Simplified with specialized fonts
@@ -816,13 +816,14 @@ body {
 
 /* The Reflection Card: Memo Slip Style */
 .reflection-card {
-  margin: 2.5rem 0 3rem;
+  margin: 2.5rem auto 3rem;
+  max-width: 620px;
   background-color: var(--reflection-bg);
   color: var(--reflection-text);
   border: 1px solid var(--border-color);
   border-left: 5px solid var(--reflection-border);
   border-radius: var(--radius-md);
-  padding: 1.8rem 2rem;
+  padding: 2.2rem 2.8rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
   position: relative;
   overflow: hidden;
@@ -861,6 +862,7 @@ body {
   line-height: 1.85;
   margin-bottom: 0.8em;
   text-indent: 2em;
+  letter-spacing: 0.03em;
 }
 .reflection-paragraph:last-child {
   margin-bottom: 0;
