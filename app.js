@@ -1,4 +1,4 @@
-/**
+﻿/**
  * 言未盡處 (Beyond Words) - Reader Application Script
  * Featuring OpenCC (Traditional/Simplified Conversion with Phrase Localization)
  * Pure Vanilla JavaScript for high performance, smooth routing, and offline support.
@@ -188,14 +188,64 @@
     }
   }
 
+  // Chapter Cache for Modular Chapter Architecture
+  const chapterCache = {};
+
   function loadBooksData() {
-    const dataSrc = window.BEYOND_WORDS_DATA || window.NOVEL_DATA;
+    const dataSrc = window.BEYOND_WORDS_MANIFEST || window.BEYOND_WORDS_DATA || window.NOVEL_DATA;
     if (dataSrc && dataSrc.books) {
       state.books = dataSrc.books;
     } else {
-      console.error('Novel data not loaded.');
+      console.error('Novel manifest or data not loaded.');
       state.books = [];
     }
+  }
+
+  // Load Chapter Data asynchronously or from cache
+  async function loadChapterContent(book, chNum) {
+    const cacheKey = ${book.id}-ch-;
+    if (chapterCache[cacheKey]) {
+      return chapterCache[cacheKey];
+    }
+
+    // 1. Check if embedded in global window.BEYOND_WORDS_DATA or window.CHAPTER_DATA
+    if (window.CHAPTER_DATA && window.CHAPTER_DATA[ch-]) {
+      chapterCache[cacheKey] = window.CHAPTER_DATA[ch-];
+      return chapterCache[cacheKey];
+    }
+    const fullChapter = book.chapters && book.chapters.find(c => c.chapter_number === chNum && c.sections && c.sections.length > 0 && c.sections[0].paragraphs);
+    if (fullChapter) {
+      chapterCache[cacheKey] = fullChapter;
+      return fullChapter;
+    }
+
+    // 2. Fetch asynchronously from data/chapters/ch-X.json
+    try {
+      const res = await fetch(data/chapters/ch-.json?v=20261114-v1);
+      if (res.ok) {
+        const chData = await res.json();
+        chapterCache[cacheKey] = chData;
+        return chData;
+      }
+    } catch (e) {
+      console.warn(Fetch chapter  json failed, trying script fallback:, e);
+    }
+
+    // 3. Fallback: dynamically load script data/chapters/ch-X.js
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = data/chapters/ch-.js?v=20261114-v1;
+      script.onload = () => {
+        if (window.CHAPTER_DATA && window.CHAPTER_DATA[ch-]) {
+          chapterCache[cacheKey] = window.CHAPTER_DATA[ch-];
+          resolve(chapterCache[cacheKey]);
+        } else {
+          resolve(null);
+        }
+      };
+      script.onerror = () => resolve(null);
+      document.head.appendChild(script);
+    });
   }
 
   function setupEventListeners() {
@@ -453,9 +503,10 @@
   }
 
   // Render Reader Chapter View
-  function renderChapter(book, chNum) {
+  function renderChapter(book, chNum, fullChapterData) {
     const chapters = book.chapters || [];
-    const chapter = chapters.find(c => c.chapter_number === chNum) || chapters[0];
+    const chapterMeta = chapters.find(c => c.chapter_number === chNum) || chapters[0];
+    const chapter = fullChapterData || chapterMeta;
     if (!chapter) return;
 
     // Header Meta
@@ -630,7 +681,8 @@
       renderBookDetailPage(book);
       document.title = `${t(book.title)} | ${t('目錄導讀')} - ${t('言未盡處')}`;
     } else if (el.viewReader.style.display !== 'none' && book) {
-      renderChapter(book, state.currentChapterNumber);
+      const cached = chapterCache[${book.id}-ch-];
+      renderChapter(book, state.currentChapterNumber, cached);
     }
 
     if (el.tocDialog.open && book) {
